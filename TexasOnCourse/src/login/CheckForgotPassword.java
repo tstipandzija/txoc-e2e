@@ -8,52 +8,51 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
 
 public class CheckForgotPassword {
 
 	WebDriver driver;
-
-	public void invokeBrowser(String url) {
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
 
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			driver.get(url);
+			checkForgotPass();
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"invokeBrowser"})
 	public void checkForgotPass() {
 
 		try {
-			invokeBrowser("https://account.stage.texasoncourse.org/interaction/13a24ef4-7ca8-4d3a-aaf8-2600772bbf9d/");
+			driver.get(Config.url);
 			driver.findElement(By.linkText("Forgot password?")).click();
-			driver.findElement(By.id("email")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div/form/fieldset/div[2]/button")).click();
-			String message = driver.findElement(By.xpath("html/body/div/div/div/div/div[1]")).getText();
+			driver.findElement(By.id("email")).sendKeys(Config.email);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
+			String message = driver.findElement(By.xpath("/html/body/div/div/div/div/div[1]")).getText();
 			System.out.println("An email has been sent to the address you provided with instructions to reset your password. = " + message);
+			Assert.assertEquals(message, "An email has been sent to the address you provided with instructions to reset your password.");
 			driver.findElement(By.linkText("Contact support")).click();
 			driver.navigate().back();
+			Thread.sleep(10000);
+			driver.quit();
 
 		} catch (Exception e) {
 			e.printStackTrace();

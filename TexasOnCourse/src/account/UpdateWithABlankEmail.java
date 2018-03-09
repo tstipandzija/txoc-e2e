@@ -16,67 +16,63 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
+import configuration.Login_Action;
+
 
 public class UpdateWithABlankEmail {
 
 	WebDriver driver; 
-
-	public void invokeBrowser(String url) {
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
 
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			driver.get(url);
+			leaveEmptyEmailAndUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	@Test
 	public void leaveEmptyEmailAndUpdate() {
 
 		try {
-			invokeBrowser("https://account.stage.texasoncourse.org/interaction/1ac8be08-0660-4cdf-8998-0e10aedd20a3");
-			driver.findElement(By.id("email")).sendKeys("dsdsds");
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			Login_Action.Execute(driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(".//*[@id='app']/div[3]/div[2]/div/div/div/div/p")).click();
-			driver.findElement(By.xpath(".//*[@id='app']/div[2]/ul/li[2]/a/div")).click();
+			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
+			driver.findElement(By.xpath("//a[@href='#/account']")).click();
 
-			driver.switchTo().frame(driver.findElement(By.xpath("/html/body/div/div[3]/iframe")));
+			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
 			Thread.sleep(2000);
 
 			driver.findElement(By.id("email")).clear();
 			Thread.sleep(1000);
 
-			String update = driver.findElement(By.xpath(".//*[@id='updateButton']")).getText();
+			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
 			System.out.println("Update = " + update);
-			WebElement el = driver.findElement(By.xpath(".//*[@id='updateButton']"));
+			Assert.assertEquals(update, "Update");
+			WebElement el = driver.findElement(By.xpath("//a[@id='updateButton']"));
 			JavascriptExecutor jsExec = (JavascriptExecutor) driver;
 			jsExec.executeScript("arguments[0].click()", el);
 			Thread.sleep(4000);
 
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath(".//*[@id='app']/div[2]/div[2]/div/div/div/div/p")).click();
+			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
 			Thread.sleep(2000);
-			driver.findElement(By.xpath("/html/body/div/div[1]/ul/li[4]/a/div")).click();
+			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
 			Thread.sleep(5000);
 			driver.quit();
 		} catch (InterruptedException e) {

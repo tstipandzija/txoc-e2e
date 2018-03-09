@@ -17,30 +17,28 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.ui.Select;
+import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+
 
 public class CheckAllButtonsAndDropDowns {
 
 	WebDriver driver; 
-
-	public void invokeBrowser() {
+	
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
 			getTheUrl();
@@ -49,26 +47,26 @@ public class CheckAllButtonsAndDropDowns {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"invokeBrowser"})
 	public void getTheUrl() {
 
 		try {
 			driver.get("https://account.stage.texasoncourse.org/users/register");
 			String titleofThePage = driver.getTitle();
 			System.out.println("Title of the page is: " + titleofThePage);
+			Assert.assertEquals(titleofThePage, "Texas OnCourse");
 			checkAndSelect();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"getTheUrl"})
 	public void checkAndSelect() {
 
 		try {
-			driver.findElement(By.id("escRegion"));
-			Select region = new Select(driver.findElement(By.id("escRegion")));
-			region.selectByIndex(5);
 			driver.findElement(By.id("conversionSourceDropdown"));
 			Select dropdown = new Select(driver.findElement(By.id("conversionSourceDropdown")));
 			dropdown.selectByVisibleText("School");
@@ -78,14 +76,11 @@ public class CheckAllButtonsAndDropDowns {
 			Thread.sleep(1000);
 			Select dropDoWn = new Select(driver.findElement(By.id("conversionSourceDropdown")));
 			dropDoWn.selectByIndex(2);
-			boolean status = driver
-					.findElement(By.xpath("html/body/div[1]/div/div[1]/div[2]/form/fieldset/div[14]/button"))
-					.isEnabled();
+			boolean status = driver.findElement(By.xpath("//button[@type='submit']")).isEnabled();
 			System.out.println(status);
-			driver.findElement(By.xpath("html/body/div[1]/div/div[1]/div[2]/form/fieldset/div[11]/label/span/span"))
-					.click();
-			driver.findElement(By.xpath("html/body/div[1]/div/div[1]/div[2]/form/fieldset/div[12]/label/span/span"))
-					.click();
+			driver.findElement(By.xpath("//span[@class='check']")).click(); 
+			driver.findElement(By.xpath("//*[@id='participationDisclosure']"))
+					.click();	
 			driver.findElement(By.partialLinkText("Contact")).click();
 			driver.navigate().back();
 			driver.navigate().forward();
@@ -106,11 +101,12 @@ public class CheckAllButtonsAndDropDowns {
 				String winHandle = driver.getWindowHandles().toArray()[i].toString();
 
 				driver.switchTo().window(winHandle);
-	
-				driver.findElement(By.xpath("html/body/footer/div[1]/div/div/div[1]/a")).click();
+				
+
+				driver.findElement(By.xpath("//a[@class='button']")).click();
 				Thread.sleep(1000);
 				driver.navigate().back();
-				driver.findElement(By.xpath("html/body/footer/div[1]/div/div/div[3]/p/a/span[1]")).click();
+				driver.findElement(By.xpath("//a[@id='scroll-anchor-fixed']")).click();
 				Thread.sleep(1000);
 				driver.navigate().back();
 				driver.close();
@@ -126,7 +122,6 @@ public class CheckAllButtonsAndDropDowns {
 			}
 			driver.findElement(By.partialLinkText("Contact")).click();
 			driver.navigate().back();
-			Thread.sleep(1000);
 			driver.quit();
 
 		} catch (Exception e) {
@@ -135,11 +130,5 @@ public class CheckAllButtonsAndDropDowns {
 
 	}
 
-	public static void main(String[] args) {
-
-		CheckAllButtonsAndDropDowns myObj = new CheckAllButtonsAndDropDowns();
-		myObj.invokeBrowser();
-		
-	}
 
 }

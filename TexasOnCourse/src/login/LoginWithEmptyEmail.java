@@ -8,46 +8,41 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
 
 public class LoginWithEmptyEmail {
 
 	WebDriver driver;
-
-	public void invokeBrowser(String url) {
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
 
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			driver.get(url);
+			leaveEmptyEmail();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	@Test
 	public void leaveEmptyEmail() {
 
 		try {
-			invokeBrowser("https://account.stage.texasoncourse.org/interaction/13a24ef4-7ca8-4d3a-aaf8-2600772bbf9d/");
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.get(Config.url);
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			Thread.sleep(2000);
 			driver.quit();
 		} catch (Exception e) {

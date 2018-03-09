@@ -1,0 +1,28 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TexasOnCourse">
+	<test name="Account/Dashboard test">
+		<classes>
+			<class name="account.CheckAllButtons" />
+			<class name="account.UpdateWithABlankFirstName" />
+			<class name="account.UpdateWithABlankLastName" />
+			<class name="account.UpdateWithABlankEmail" />
+			<class name="account.UpdateWithABlankOccupation" />
+			<class name="account.UpdateOccupationTwice" />
+			<class name="account.UpdateWithSomeOccupation" />
+			<class name="account.UpdateWithSpecCharacters" />
+			<class name="account.UpdateAnEmailWithAnExistingOne" />
+			<class name="account.UpdateWithABlankSchool" />
+			<class name="account.UpdateWithABlankSupervisor" />
+			<class name="account.UpdateSupervisorWithASpecChar" />
+			<class name="account.UpdateWitABlankSupEmail" />
+			<class name="account.UpdateDistrictWithASpecChar" />
+			<class name="account.UpdateWithABlankTwitterAndLinkedIn" />
+			<class name="account.UpdateTwitterAndLinkendInWithASpecChar" />
+			<class name="dashboard.CheckTheBadgeAndStipendButton"/>
+			<class name="dashboard.CheckHelpVideosLink"/>
+			<class name="dashboard.CheckMiddleGalaxyButtonAndLink"/>
+			<class name="dashboard.CheckTheGlossaryLink"/>
+			<class name="dashboard.CheckTheBannerLink"/>
+		</classes>
+	</test>
+</suite>

@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TexasOnCourse">
+	<test name="Registration/Login test">
+		<classes>
+			<class name="registration.CheckAllButtonsAndDropDowns"/>
+			<class name="login.CheckAllButtons"/>
+			<class name="login.LoginWithNonexistingAccount"/>
+			<class name="login.CorrectEmailIncorrectPass"/>
+			<class name="login.IncorrectEmailCorrectPass"/>
+			<class name="login.LoginWithExistingAccount"/>
+			<class name="login.LoginWithEmptyPass"/>
+			<class name="login.LoginWithEmptyEmail"/>
+			<class name="login.LoginWithTheSamePassAsEmail"/>
+			<class name="login.LoginWithTheSameEmailAsPass"/>
+			<class name="login.AnEmailWithoutAKeyChar"/>
+			<class name="login.CheckForgotPassword"/>
+		</classes>
+	</test>
+</suite>

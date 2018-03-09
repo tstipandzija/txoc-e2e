@@ -1,5 +1,6 @@
 package login;
 
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -9,32 +10,27 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
 
 public class CheckAllButtons {
 
 	
 	WebDriver driver; 
-
-	public void invokeBrowser() {
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
 
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
 			checkTheButtons();
@@ -43,33 +39,41 @@ public class CheckAllButtons {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"invokeBrowser"})
 	public void checkTheButtons() {
 
 		try {
-			driver.get("https://account.stage.texasoncourse.org/interaction/13a24ef4-7ca8-4d3a-aaf8-2600772bbf9d");
+			driver.get(Config.url);
 			String titleofThePage = driver.getTitle();
 			System.out.println("Title of the page is: " + titleofThePage);
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
-			String buttonName = driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).getText();
+			Assert.assertEquals(titleofThePage, "Texas OnCourse Academy");
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
+			String buttonName = driver.findElement(By.xpath("//button[@type='submit']")).getText();
 			System.out.println("Login = " + buttonName);
+			Assert.assertEquals(buttonName, "Login");
 			String needToRegister = driver.findElement(By.linkText("Need to register?")).getText();
 			System.out.println("Need to register? = " + needToRegister);
+			Assert.assertEquals(needToRegister, "Need to register?");
 			driver.findElement(By.linkText("Need to register?")).click();
 			driver.navigate().back();
 			String forgotPassword = driver.findElement(By.linkText("Forgot password?")).getText();
 			System.out.println("Forgot password? = " + forgotPassword);
+			Assert.assertEquals(forgotPassword, "Forgot password?");
 			driver.findElement(By.linkText("Forgot password?")).click();
-			driver.findElement(By.xpath("html/body/div/div/div/div/form/fieldset/div[2]/button")).click();
-			String reset = driver.findElement(By.xpath("html/body/div/div/div/div/form/fieldset/div[2]/button")).getText();
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
+			String reset = driver.findElement(By.xpath("//button[@type='submit']")).getText();
 			System.out.println("Reset = " + reset);
+			Assert.assertEquals(reset, "Reset");
 			String contactSupport = driver.findElement(By.linkText("Contact support")).getText();
 			System.out.println("Contact support = " + contactSupport);
+			Assert.assertEquals(contactSupport, "Contact support");
 			driver.findElement(By.linkText("Contact support")).click();
 			driver.navigate().back();
 			driver.navigate().back();
 			String contactsupport = 	driver.findElement(By.linkText("Contact support")).getText();
 			System.out.println("Contact support = " + contactsupport);
+			Assert.assertEquals(contactsupport, "Contact support");
 			driver.findElement(By.linkText("Contact support")).click();
 			driver.navigate().back();
 			driver.quit();
@@ -79,11 +83,11 @@ public class CheckAllButtons {
 
 	}
 
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
 
-		CheckAllButtons obj = new CheckAllButtons();
+		/*CheckAllButtons obj = new CheckAllButtons();
 		obj.invokeBrowser();
-		LogInWithNonexistingAccount obj1 = new LogInWithNonexistingAccount();
+		LoginWithNonexistingAccount obj1 = new LoginWithNonexistingAccount();
 		obj1.typeInTheNonexistingAccount();
 		CorrectEmailIncorrectPass obj2 = new CorrectEmailIncorrectPass();
 		obj2.typeInTheWrongCredentials1();
@@ -91,7 +95,7 @@ public class CheckAllButtons {
 		obj3.typeInTheWrongCredentials2();
 		LoginWithExistingAccount obj4 = new LoginWithExistingAccount();
 		obj4.typeInTheRightCredentials();
-		LoginWIthEmptyPass obj5 = new LoginWIthEmptyPass();
+		LoginWithEmptyPass obj5 = new LoginWIthEmptyPass();
 		obj5.leaveEmptyPass();
 		LoginWithEmptyEmail obj6 = new LoginWithEmptyEmail();
 		obj6.leaveEmptyEmail();
@@ -99,11 +103,11 @@ public class CheckAllButtons {
 		obj7.typePassAsEmail(); 
 		LoginWithTheSameEmailAsPass obj8 = new LoginWithTheSameEmailAsPass();
 		obj8.typeEmailAsPass();
-		CheckForgotPassword obj9 = new CheckForgotPassword();
-		obj9.checkForgotPass();
 		AnEmailWithoutAKeyChar obj10 = new AnEmailWithoutAKeyChar();
 		obj10.typeInAnEmailWithoutAKeyChar();
+		CheckForgotPassword obj9 = new CheckForgotPassword();
+		obj9.checkForgotPass();*/
 			
 	}
 
-}
+

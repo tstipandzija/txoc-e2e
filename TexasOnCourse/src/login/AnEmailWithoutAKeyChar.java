@@ -9,45 +9,43 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
 
 public class AnEmailWithoutAKeyChar {
 
 	WebDriver driver;
-
-	public void invokeBrowser(String url) {
+	
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
-
-			System.setProperty("webdriver.chrome.driver", "/Users/tomislavstipandzija/Downloads/chromedriver");
-			driver = new ChromeDriver();
-
-			/*
-			 * System.setProperty("webdriver.gecko.driver",
-			 * "/Users/tomislavstipandzija/Downloads/geckodriver"); ProfilesIni profile =
-			 * new ProfilesIni(); FirefoxProfile myprofile = profile.getProfile("default");
-			 * DesiredCapabilities dc = DesiredCapabilities.firefox();
-			 * dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			 * dc.setCapability("marionette", true); driver = new FirefoxDriver();
-			 */
-
+			
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			driver.get(url);
+			typeInAnEmailWithoutAKeyChar();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"invokeBrowser"})
 	public void typeInAnEmailWithoutAKeyChar() {
 
 		try {
-			invokeBrowser("https://account.stage.texasoncourse.org/interaction/13a24ef4-7ca8-4d3a-aaf8-2600772bbf9d/");
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // without @
-			driver.findElement(By.id("password")).sendKeys("edede");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.get(Config.url);
+			driver.findElement(By.id("email")).sendKeys("tstipandzija.ee+9gmail.com"); // without @
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			Thread.sleep(3000);
 			typeInAnEmailWithoutSecKeyChar();
 		} catch (Exception e) {
@@ -55,14 +53,15 @@ public class AnEmailWithoutAKeyChar {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"typeInAnEmailWithoutAKeyChar"})
 	public void typeInAnEmailWithoutSecKeyChar() {
 
 		try {
 			driver.findElement(By.id("email")).clear();
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // with At
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.findElement(By.id("email")).sendKeys("tstipandzija.ee+9Atgmail.com"); // with At 
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			Thread.sleep(3000);
 			typeInAnEmailWithoutThirdKeyChar();
 		} catch (InterruptedException e) {
@@ -70,16 +69,18 @@ public class AnEmailWithoutAKeyChar {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"typeInAnEmailWithoutSecKeyChar"})
 	public void typeInAnEmailWithoutThirdKeyChar() {
 
 		try {
 			driver.findElement(By.id("email")).clear();
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // without dot
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.findElement(By.id("email")).sendKeys("tstipandzija.ee+9@gmailcom"); // without dot
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			String message = driver.findElement(By.xpath("html/body/div/div/div/div[2]")).getText();
 			System.out.println("Sorry, we don't recognize that email/password. = " + message);
+			Assert.assertEquals(message, "Sorry, we don't recognize that email/password.");
 			driver.navigate().refresh();
 			Thread.sleep(3000);
 			typeInAnIncompleteEmail();
@@ -88,16 +89,18 @@ public class AnEmailWithoutAKeyChar {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"typeInAnEmailWithoutThirdKeyChar"})
 	public void typeInAnIncompleteEmail() {
 
 		try {
 			driver.findElement(By.id("email")).clear();
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // without .com
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.findElement(By.id("email")).sendKeys("tstipandzija.ee+9@gmail"); // without .com
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			String message = driver.findElement(By.xpath("html/body/div/div/div/div[2]")).getText();
 			System.out.println("Sorry, we don't recognize that email/password. = " + message);
+			Assert.assertEquals(message, "Sorry, we don't recognize that email/password.");
 			driver.navigate().refresh();
 			Thread.sleep(3000);
 			typeInAnIncompleteEmailAgain();
@@ -106,28 +109,30 @@ public class AnEmailWithoutAKeyChar {
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"typeInAnIncompleteEmail"})
 	public void typeInAnIncompleteEmailAgain() {
 
 		try {
 			driver.findElement(By.id("email")).clear();
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // without first part
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.findElement(By.id("email")).sendKeys("@gmail.com"); // without first part
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			Thread.sleep(3000);
 			typeInAnIncompleteEmailAgain2();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
+	@Test(dependsOnMethods = {"typeInAnIncompleteEmailAgain"})
 	public void typeInAnIncompleteEmailAgain2() {
 
 		try {
 			driver.findElement(By.id("email")).clear();
-			driver.findElement(By.id("email")).sendKeys("dsdsds"); // just with @gmail
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			driver.findElement(By.id("email")).sendKeys("@gmail"); // just with @gmail
+			driver.findElement(By.id("password")).sendKeys(Config.password);
+			driver.findElement(By.xpath("//button[@type='submit']")).click();
 			Thread.sleep(3000);
 			driver.quit();
 		} catch (InterruptedException e) {

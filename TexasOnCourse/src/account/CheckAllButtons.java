@@ -16,58 +16,54 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
+import org.testng.annotations.Test;
+
+import configuration.BrowserType;
+import configuration.Config;
+import configuration.Login_Action;
+
 
 public class CheckAllButtons {
 
 	WebDriver driver; 
 
-	public void invokeBrowser(String url) {
+	@Test
+	@Parameters("browser")
+	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
 
-			/*
-			 * System.setProperty("webdriver.chrome.driver",
-			 * "/Users/tomislavstipandzija/Downloads/chromedriver"); driver = new
-			 * ChromeDriver();
-			 */
-
-			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
-			ProfilesIni profile = new ProfilesIni();
-			FirefoxProfile myprofile = profile.getProfile("default");
-			DesiredCapabilities dc = DesiredCapabilities.firefox();
-			dc.setCapability(FirefoxDriver.PROFILE, myprofile);
-			dc.setCapability("marionette", true);
-			driver = new FirefoxDriver();
-
+			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().deleteAllCookies();
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			driver.get(url);
+			checkButtonsAndLinks();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-
+	
+	@Test(dependsOnMethods = {"invokeBrowser"})
 	public void checkButtonsAndLinks() {
 
 		try {
-			invokeBrowser("https://account.stage.texasoncourse.org/interaction/1ac8be08-0660-4cdf-8998-0e10aedd20a3");
-			driver.findElement(By.id("email")).sendKeys("dsdsds");
-			driver.findElement(By.id("password")).sendKeys("dsdsds");
-			driver.findElement(By.xpath("html/body/div/div/div/div[1]/form/fieldset/div[3]/button")).click();
+			Login_Action.Execute(driver);
 			Thread.sleep(3000);
-			driver.findElement(By.xpath(".//*[@id='app']/div[3]/div[2]/div/div/div/div/p")).click();
-			driver.findElement(By.xpath(".//*[@id='app']/div[2]/ul/li[2]/a/div")).click();
+			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
+			driver.findElement(By.xpath("//a[@href='#/account']")).click();
 
 			int iframeSize = driver.findElements(By.tagName("iframe")).size();
 			System.out.println("Total number of iframes = " + iframeSize);
-			driver.switchTo().frame(driver.findElement(By.xpath("/html/body/div/div[3]/iframe")));
+			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
 			
-			String update = driver.findElement(By.xpath(".//*[@id='updateButton']")).getText();
-			System.out.println("Update = " + update);
-			WebElement el0 = driver.findElement(By.xpath(".//*[@id='updateButton']"));
+			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
+			System.out.println("Update = " + update);	
+			Assert.assertEquals(update, "Update");
+			WebElement el0 = driver.findElement(By.xpath("//a[@id='updateButton']"));
 			JavascriptExecutor jsExec0 = (JavascriptExecutor) driver;
 			jsExec0.executeScript("arguments[0].click()", el0);
 			Thread.sleep(2000);
@@ -79,19 +75,20 @@ public class CheckAllButtons {
 			jsExec.executeScript("arguments[0].click()", el);
 			Thread.sleep(3000);
 
-			WebElement el1 = driver.findElement(By.xpath("html/body/div/div/div/div[2]/fieldset/div[1]/a"));
+			WebElement el1 = driver.findElement(By.xpath("//a[@href='/class-codes/create']"));
 			JavascriptExecutor jsExec1 = (JavascriptExecutor) driver;
 			jsExec1.executeScript("arguments[0].click()", el1);
-			String newCode = driver.findElement(By.xpath("html/body/div/div/div/div[2]/fieldset/div[1]/a")).getText();
+			String newCode = driver.findElement(By.xpath("//a[@href='/class-codes/create']")).getText();
 			System.out.println("+ New Code = " + newCode);
 
-			WebElement el2 = driver.findElement(By.xpath("html/body/div/div/div/div[2]/table/tbody[2]/tr[2]/td[1]/a"));
+			WebElement el2 = driver.findElement(By.xpath("//a[@href='/class-codes/show/35']"));
 			JavascriptExecutor jsExec2 = (JavascriptExecutor) driver;
 			jsExec2.executeScript("arguments[0].click()", el2);
 			Thread.sleep(3000);
 
 			String contactSupport = driver.findElement(By.linkText("Contact support")).getText();
 			System.out.println("Contact support = " + contactSupport);
+			Assert.assertEquals(contactSupport, "Contact support");
 			WebElement el3 = driver.findElement(By.linkText("Contact support"));
 			JavascriptExecutor jsExec3 = (JavascriptExecutor) driver;
 			jsExec3.executeScript("arguments[0].click()", el3);
@@ -99,10 +96,11 @@ public class CheckAllButtons {
 			driver.navigate().back();
 			Thread.sleep(2000);
 
-			String classCodeList = driver.findElement(By.xpath("html/body/div/div/div/div[2]/fieldset/div[1]/a"))
+			String classCodeList = driver.findElement(By.xpath("//a[@href='/class-codes']"))
 					.getText();
 			System.out.println("Class code list = " + classCodeList);
-			WebElement el4 = driver.findElement(By.xpath("html/body/div/div/div/div[2]/fieldset/div[1]/a"));
+			Assert.assertEquals(classCodeList, "Class code list");
+			WebElement el4 = driver.findElement(By.xpath("//a[@href='/class-codes']"));
 			JavascriptExecutor jsExec4 = (JavascriptExecutor) driver;
 			jsExec4.executeScript("arguments[0].click()", el4);
 			Thread.sleep(2000);
@@ -110,6 +108,7 @@ public class CheckAllButtons {
 			String contactsupport = driver.findElement(By.linkText("Contact support")).getText();
 			System.out.println("Contact support = " + contactsupport);
 			WebElement el5 = driver.findElement(By.linkText("Contact support"));
+			Assert.assertEquals(contactSupport, "Contact support");
 			JavascriptExecutor jsExec5 = (JavascriptExecutor) driver;
 			jsExec5.executeScript("arguments[0].click()", el5);
 			Thread.sleep(2000);
@@ -118,6 +117,7 @@ public class CheckAllButtons {
 
 			String profilePage = driver.findElement(By.linkText("Profile page")).getText();
 			System.out.println("Profile page = " + profilePage);
+			Assert.assertEquals(profilePage, "Profile page");
 			WebElement el6 = driver.findElement(By.linkText("Profile page"));
 			JavascriptExecutor jsExec6 = (JavascriptExecutor) driver;
 			jsExec6.executeScript("arguments[0].click()", el6);
@@ -125,28 +125,30 @@ public class CheckAllButtons {
 
 			String contactSupport1 = driver.findElement(By.linkText("Contact support")).getText();
 			System.out.println("Contact support = " + contactSupport1);
+			Assert.assertEquals(contactSupport1, "Contact support");
 			WebElement el7 = driver.findElement(By.linkText("Contact support"));
 			JavascriptExecutor jsExec7 = (JavascriptExecutor) driver;
 			jsExec7.executeScript("arguments[0].click()", el7);
 			Thread.sleep(2000);
 			driver.navigate().back();
 
-			WebElement el8 = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/ul/li[3]/a"));
+			WebElement el8 = driver.findElement(By.xpath("//a[@href='#socialContent']"));
 			JavascriptExecutor jsExec8 = (JavascriptExecutor) driver;
 			jsExec8.executeScript("arguments[0].click()", el8);
 
 			Thread.sleep(3000);
 			String acces = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/form/div[3]/a")).getText();
 			System.out.println("Access Pathbrite Profile = " + acces);
+			Assert.assertEquals(acces, "Access Pathbrite Profile");
 			WebElement el9 = driver.findElement(By.xpath("/html/body/div/div/div[1]/div[2]/form/div[3]/a"));
 			JavascriptExecutor jsExec9 = (JavascriptExecutor) driver;
 			jsExec9.executeScript("arguments[0].click()", el9);
 			Thread.sleep(4000);
 
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath(".//*[@id='app']/div[2]/div[2]/div/div/div/div/p")).click();
+			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
 			Thread.sleep(2000);
-			driver.findElement(By.xpath("/html/body/div/div[1]/ul/li[4]/a/div")).click();
+			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
 			Thread.sleep(5000);
 			driver.quit();
 		} catch (InterruptedException e) {
@@ -155,9 +157,9 @@ public class CheckAllButtons {
 
 	}
 
-	public static void main(String[] args) {
+	//public static void main(String[] args) {
 
-		CheckAllButtons obj = new CheckAllButtons();
+		/*CheckAllButtons obj = new CheckAllButtons();
 		obj.checkButtonsAndLinks();
 		UpdateWithABlankFirstName obj1 = new UpdateWithABlankFirstName();
 		obj1.leaveEmptyFirstNameAndUpdate();
@@ -190,14 +192,9 @@ public class CheckAllButtons {
 		UpdateWithABlankTwitterAndLinkedIn obj15 = new UpdateWithABlankTwitterAndLinkedIn();
 		obj15.leaveEmptyTwitterAndLinkedIn();
 		UpdateTwitterAndLinkendInWithASpecChar obj16 = new UpdateTwitterAndLinkendInWithASpecChar();
-		obj16.passTwitterAndLinkedInSpecChar();
-		
-		
-		
-		
-		
+		obj16.passTwitterAndLinkedInSpecChar();*/
 
 
 	}
 
-}
+
