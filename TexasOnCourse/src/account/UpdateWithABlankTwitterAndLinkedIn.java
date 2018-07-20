@@ -16,19 +16,23 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import configuration.GoToAccount;
 import configuration.Login_Action;
+import configuration.SignOut_Action;
+import pageObjects.Account_Page;
 
 public class UpdateWithABlankTwitterAndLinkedIn {
 
 	WebDriver driver; 
 
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -36,9 +40,10 @@ public class UpdateWithABlankTwitterAndLinkedIn {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			leaveEmptyTwitterAndLinkedIn();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -50,39 +55,32 @@ public class UpdateWithABlankTwitterAndLinkedIn {
 
 		try {
 			Login_Action.Execute(driver);
-			Thread.sleep(3000);
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			driver.findElement(By.xpath("//a[@href='#/account']")).click();
+			Thread.sleep(1000);
+			GoToAccount.Execute(driver);
 
-			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
+			driver.switchTo().frame(Account_Page.iframe(driver));
 
-			String social = driver.findElement(By.xpath("//a[@href='#socialContent']")).getText();
-			System.out.println("Social = " + social);
-			Assert.assertEquals(social, "Social");
-			WebElement el = driver.findElement(By.xpath("//a[@href='#socialContent']"));
+			WebElement el = Account_Page.social(driver);
 			JavascriptExecutor jsExec = (JavascriptExecutor) driver;
 			jsExec.executeScript("arguments[0].click()", el);
 			Thread.sleep(2000);
 
-			driver.findElement(By.id("twitter")).clear();
-			driver.findElement(By.id("linkedIn")).clear();
+			Account_Page.twitter(driver).clear();
+			Account_Page.linkedIn(driver).clear();
 
-			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
-			System.out.println("Update = " + update);
-			Assert.assertEquals(update, "Update");
-			WebElement el1 = driver.findElement(By.xpath("//a[@id='updateButton']"));
+			WebElement el1 = Account_Page.updateButton(driver);
 			JavascriptExecutor jsExec1 = (JavascriptExecutor) driver;
 			jsExec1.executeScript("arguments[0].click()", el1);
-			Thread.sleep(4000);
 
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
-			Thread.sleep(5000);
+			SignOut_Action.Execute(driver);
+			
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		}
+		  finally {
+
 			driver.quit();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 
 	}

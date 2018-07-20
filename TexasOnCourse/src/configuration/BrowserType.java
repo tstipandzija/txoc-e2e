@@ -15,13 +15,14 @@ public class BrowserType {
 
 		WebDriver driver = null;
 
-		if (browser.equals("firefox")) {
+		if (browser.equalsIgnoreCase("firefox")) {
 			System.setProperty("webdriver.gecko.driver", "/Users/tomislavstipandzija/Downloads/geckodriver");
 			driver = new FirefoxDriver(); // launch firefox
-		} else if (browser.equals("chrome")) {
-			System.setProperty("webdriver.chrome.driver", "/Users/tomislavstipandzija/Downloads/chromedriver");
+		} else if (browser.equalsIgnoreCase("chrome")) {
+			System.setProperty("webdriver.chrome.driver", "/Users/tomislavstipandzija/Downloads/chromedriver2");
 			driver = new ChromeDriver(); // launch chrome
 		}
+		
 		return driver;
 
 	}

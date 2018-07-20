@@ -15,21 +15,28 @@ import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import configuration.GoToAccount;
+import configuration.JSExec;
 import configuration.Login_Action;
+import configuration.SignOut_Action;
+import configuration.Wait;
+import pageObjects.Account_Page;
 
 
 public class UpdateWitABlankSupEmail {
 
 	WebDriver driver; 
 
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -37,51 +44,56 @@ public class UpdateWitABlankSupEmail {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			leaveABlankEmail();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	@Test(dependsOnMethods = {"invokeBrowser"})
+	@Test
 	public void leaveABlankEmail() {
 
 		try {
 			Login_Action.Execute(driver);
-			Thread.sleep(3000);
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			driver.findElement(By.xpath("//a[@href='#/account']")).click();
+			Thread.sleep(1000);
+			GoToAccount.Execute(driver);
 
-			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
-
-			String school = driver.findElement(By.xpath("//a[@href='#schoolContent']")).getText();
-			System.out.println("School = " + school);
-			Assert.assertEquals(school, "School");
-			WebElement el = driver.findElement(By.xpath("//a[@href='#schoolContent']"));
+			driver.switchTo().frame(Account_Page.iframe(driver));
+			
+			WebElement el = Account_Page.school(driver);
 			JavascriptExecutor jsExec = (JavascriptExecutor) driver;
 			jsExec.executeScript("arguments[0].click()", el);
-			Thread.sleep(2000);
-
-			driver.findElement(By.id("supervisorEmail")).clear();
-
-			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
-			System.out.println("Update = " + update);
-			Assert.assertEquals(update, "Update");
-			WebElement el1 = driver.findElement(By.xpath("//a[@id='updateButton']"));
+			//JSExec.clickElement(Account_Page.school(driver), driver);
+			
+			
+			//Thread.sleep(2000);
+			
+			//ovako prolazi test, kad je izvan genericke klase
+			WebDriverWait wait = new WebDriverWait(driver, 10);
+			wait.until(ExpectedConditions.visibilityOf(Account_Page.supervisorEmail(driver))); 
+				
+			//ovako ne prolazi test, mozda je problem u generickoj klasi?
+			//Wait.waitForElement(Account_Page.supervisorEmail(driver), driver);
+			
+			Account_Page.supervisorEmail(driver).clear();
+			WebElement el1 = Account_Page.updateButton(driver);
 			JavascriptExecutor jsExec1 = (JavascriptExecutor) driver;
 			jsExec1.executeScript("arguments[0].click()", el1);
-			Thread.sleep(4000);
+			//JSExec.clickElement(Account_Page.updateButton(driver), driver);
 
+						
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
-			Thread.sleep(5000);
+			SignOut_Action.Execute(driver);
+			
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		}
+		  finally {
+
 			driver.quit();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 
 	}

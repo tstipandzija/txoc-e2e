@@ -11,19 +11,22 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import pageObjects.Login_Page;
+import pageObjects.ResetPassword_Page;
 
 public class CheckAllButtons {
 
 	
 	WebDriver driver; 
 	
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -31,54 +34,58 @@ public class CheckAllButtons {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			checkTheButtons();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	@Test(dependsOnMethods = {"invokeBrowser"})
+	@Test
 	public void checkTheButtons() {
 
 		try {
-			driver.get(Config.url);
 			String titleofThePage = driver.getTitle();
 			System.out.println("Title of the page is: " + titleofThePage);
 			Assert.assertEquals(titleofThePage, "Texas OnCourse Academy");
-			driver.findElement(By.xpath("//button[@type='submit']")).click();
-			String buttonName = driver.findElement(By.xpath("//button[@type='submit']")).getText();
+			Login_Page.loginButton(driver).click();
+			String buttonName = Login_Page.loginButton(driver).getText();
 			System.out.println("Login = " + buttonName);
 			Assert.assertEquals(buttonName, "Login");
-			String needToRegister = driver.findElement(By.linkText("Need to register?")).getText();
+			String needToRegister = Login_Page.alreadyRegistered(driver).getText();
 			System.out.println("Need to register? = " + needToRegister);
 			Assert.assertEquals(needToRegister, "Need to register?");
-			driver.findElement(By.linkText("Need to register?")).click();
+			Login_Page.alreadyRegistered(driver).click();
 			driver.navigate().back();
-			String forgotPassword = driver.findElement(By.linkText("Forgot password?")).getText();
+			String forgotPassword = Login_Page.forgotPassword(driver).getText();
 			System.out.println("Forgot password? = " + forgotPassword);
 			Assert.assertEquals(forgotPassword, "Forgot password?");
-			driver.findElement(By.linkText("Forgot password?")).click();
-			driver.findElement(By.xpath("//button[@type='submit']")).click();
-			String reset = driver.findElement(By.xpath("//button[@type='submit']")).getText();
+			Login_Page.forgotPassword(driver).click();
+			ResetPassword_Page.resetButton(driver).click();
+			String reset = ResetPassword_Page.resetButton(driver).getText();
 			System.out.println("Reset = " + reset);
 			Assert.assertEquals(reset, "Reset");
-			String contactSupport = driver.findElement(By.linkText("Contact support")).getText();
+			String contactSupport = ResetPassword_Page.contactSupport(driver).getText();
 			System.out.println("Contact support = " + contactSupport);
 			Assert.assertEquals(contactSupport, "Contact support");
-			driver.findElement(By.linkText("Contact support")).click();
+			Login_Page.contactSupport(driver).click();
 			driver.navigate().back();
 			driver.navigate().back();
-			String contactsupport = 	driver.findElement(By.linkText("Contact support")).getText();
+			String contactsupport = Login_Page.contactSupport(driver).getText();
 			System.out.println("Contact support = " + contactsupport);
 			Assert.assertEquals(contactsupport, "Contact support");
-			driver.findElement(By.linkText("Contact support")).click();
+			Login_Page.contactSupport(driver).click();
 			driver.navigate().back();
+			
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		}
+		  finally {
+
 			driver.quit();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 
 	}

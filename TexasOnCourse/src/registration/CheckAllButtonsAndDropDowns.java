@@ -18,83 +18,72 @@ import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.support.ByIdOrName;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
-
+import configuration.Config;
+import pageObjects.Registration_Page;
 
 public class CheckAllButtonsAndDropDowns {
 
-	WebDriver driver; 
-	
-	
-	@Test
+	WebDriver driver;
+
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
 		try {
-			
+
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			getTheUrl();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}
-	
-	@Test(dependsOnMethods = {"invokeBrowser"})
-	public void getTheUrl() {
-
-		try {
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
 			driver.get("https://account.stage.texasoncourse.org/users/register");
-			String titleofThePage = driver.getTitle();
-			System.out.println("Title of the page is: " + titleofThePage);
-			Assert.assertEquals(titleofThePage, "Texas OnCourse");
-			checkAndSelect();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	@Test(dependsOnMethods = {"getTheUrl"})
+	@Test
 	public void checkAndSelect() {
 
 		try {
-			driver.findElement(By.id("conversionSourceDropdown"));
-			Select dropdown = new Select(driver.findElement(By.id("conversionSourceDropdown")));
+			String titleofThePage = driver.getTitle();
+			System.out.println("Title of the page is: " + titleofThePage);
+			Assert.assertEquals(titleofThePage, "Texas OnCourse");
+			Registration_Page.dropdown(driver).click();
+			Select dropdown = new Select(Registration_Page.dropdown(driver));
 			dropdown.selectByVisibleText("School");
 			Thread.sleep(500);
-			Select dropDown = new Select(driver.findElement(By.id("conversionSourceDropdown")));
-			dropDown.selectByIndex(0);
+			dropdown.selectByIndex(0);
+			Thread.sleep(500);
+			dropdown.selectByIndex(2);
+			boolean status = Registration_Page.registerButton(driver).isEnabled();
+			System.out.println("The button is enabled = " + status);
+			Registration_Page.firstCheckbox(driver).click();
+			Registration_Page.secondCheckbox(driver).click();
+			Registration_Page.contactSupport(driver).click();
+			driver.navigate().back();
+			driver.navigate().forward();
+			driver.navigate().back();
+			Registration_Page.alreadyRegistered(driver).click();
+			driver.navigate().back();
+			driver.navigate().forward();
+			driver.navigate().back();
+			Registration_Page.partDiscLink(driver).click();
+			Thread.sleep(500);
+			WebElement closeButton = Registration_Page.partDiscCloseButton(driver);
+			closeButton.click();
+			Thread.sleep(500);
+			Registration_Page.termsOfService(driver).click();
 			Thread.sleep(1000);
-			Select dropDoWn = new Select(driver.findElement(By.id("conversionSourceDropdown")));
-			dropDoWn.selectByIndex(2);
-			boolean status = driver.findElement(By.xpath("//button[@type='submit']")).isEnabled();
-			System.out.println(status);
-			driver.findElement(By.xpath("//span[@class='check']")).click(); 
-			driver.findElement(By.xpath("//*[@id='participationDisclosure']"))
-					.click();	
-			driver.findElement(By.partialLinkText("Contact")).click();
-			driver.navigate().back();
-			driver.navigate().forward();
-			driver.navigate().back();
-			driver.findElement(By.linkText("Already Registered?")).click();
-			driver.navigate().back();
-			driver.navigate().forward();
-			driver.navigate().back();
-			driver.findElement(By.linkText("Participation Disclosure Terms")).click();
-			Thread.sleep(500);
-			driver.findElement(By.cssSelector("button.close")).click();
-			Thread.sleep(500);
-			driver.findElement(By.linkText("Texas OnCourse Terms of Service")).click();
-			Thread.sleep(3000);
+		
 
 			for (int i = driver.getWindowHandles().size() - 1; i > 0; i--) {
 
@@ -102,13 +91,6 @@ public class CheckAllButtonsAndDropDowns {
 
 				driver.switchTo().window(winHandle);
 				
-
-				driver.findElement(By.xpath("//a[@class='button']")).click();
-				Thread.sleep(1000);
-				driver.navigate().back();
-				driver.findElement(By.xpath("//a[@id='scroll-anchor-fixed']")).click();
-				Thread.sleep(1000);
-				driver.navigate().back();
 				driver.close();
 			}
 
@@ -117,18 +99,22 @@ public class CheckAllButtonsAndDropDowns {
 			for (String handle : allWindowHandles) {
 				System.out.println("Switching to window - > " + handle);
 				System.out.println("Navigating to Texas OnCourse Registration Page");
-				driver.switchTo().window(handle); 
+				driver.switchTo().window(handle);
 				driver.get("https://account.stage.texasoncourse.org/users/register");
 			}
-			driver.findElement(By.partialLinkText("Contact")).click();
+			Registration_Page.contactSupport(driver).click();
 			driver.navigate().back();
-			driver.quit();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+			
+		}
+
+		finally {
+
+			driver.quit();
 		}
 
 	}
-
 
 }

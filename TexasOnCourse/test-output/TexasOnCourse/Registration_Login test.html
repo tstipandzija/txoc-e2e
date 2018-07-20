@@ -55,11 +55,11 @@ function toggleAllBoxes() {
 <body>
 <h2 align='center'>Registration/Login test</h2><table border='1' align="center">
 <tr>
-<td>Tests passed/Failed/Skipped:</td><td>25/1/4</td>
+<td>Tests passed/Failed/Skipped:</td><td>11/0/0</td>
 </tr><tr>
-<td>Started on:</td><td>Fri Mar 02 13:47:50 CET 2018</td>
+<td>Started on:</td><td>Thu Apr 26 13:24:31 CEST 2018</td>
 </tr>
-<tr><td>Total time:</td><td>254 seconds (254358 ms)</td>
+<tr><td>Total time:</td><td>233 seconds (233646 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -67,69 +67,6 @@ function toggleAllBoxes() {
 </tr>
 </table><p/>
 <small><i>(Hover the method name to see the test class name)</i></small><p/>
-<table width='100%' border='1' class='invocation-failed'>
-<tr><td colspan='4' align='center'><b>FAILED TESTS</b></td></tr>
-<tr><td><b>Test method</b></td>
-<td width="30%"><b>Exception</b></td>
-<td width="10%"><b>Time (seconds)</b></td>
-<td><b>Instance</b></td>
-</tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnEmailWithoutSecKeyChar()'><b>typeInAnEmailWithoutSecKeyChar</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td><div><pre>org.openqa.selenium.NoSuchSessionException: Session ID is null. Using WebDriver after calling quit()?
-Build info: version: &apos;3.8.1&apos;, revision: &apos;6e95a6684b&apos;, time: &apos;2017-12-01T19:05:14.666Z&apos;
-System info: host: &apos;Tomislavs-MacBook-Pro.local&apos;, ip: &apos;fe80:0:0:0:1800:d509:b408:671e%en0&apos;, os.name: &apos;Mac OS X&apos;, os.arch: &apos;x86_64&apos;, os.version: &apos;10.13.3&apos;, java.version: &apos;9.0.1&apos;
-Driver info: driver.version: RemoteWebDriver
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:131)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:601)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:371)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElementById(RemoteWebDriver.java:417)
-	at org.openqa.selenium.By$ById.findElement(By.java:218)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:363)
-	at login.AnEmailWithoutAKeyChar.typeInAnEmailWithoutSecKeyChar(AnEmailWithoutAKeyChar.java:61)
-... Removed 25 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1630841930", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1630841930'><pre>org.openqa.selenium.NoSuchSessionException: Session ID is null. Using WebDriver after calling quit()?
-Build info: version: &apos;3.8.1&apos;, revision: &apos;6e95a6684b&apos;, time: &apos;2017-12-01T19:05:14.666Z&apos;
-System info: host: &apos;Tomislavs-MacBook-Pro.local&apos;, ip: &apos;fe80:0:0:0:1800:d509:b408:671e%en0&apos;, os.name: &apos;Mac OS X&apos;, os.arch: &apos;x86_64&apos;, os.version: &apos;10.13.3&apos;, java.version: &apos;9.0.1&apos;
-Driver info: driver.version: RemoteWebDriver
-	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:131)
-	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
-	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:601)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:371)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElementById(RemoteWebDriver.java:417)
-	at org.openqa.selenium.By$ById.findElement(By.java:218)
-	at org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:363)
-	at login.AnEmailWithoutAKeyChar.typeInAnEmailWithoutSecKeyChar(AnEmailWithoutAKeyChar.java:61)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
-	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:580)
-	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:716)
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:988)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div></td>
-<td>0</td>
-<td>login.AnEmailWithoutAKeyChar@610f7aa</td></tr>
-</table><p>
 <table width='100%' border='1' class='invocation-passed'>
 <tr><td colspan='4' align='center'><b>PASSED TESTS</b></td></tr>
 <tr><td><b>Test method</b></td>
@@ -140,240 +77,58 @@ Driver info: driver.version: RemoteWebDriver
 <tr>
 <td title='registration.CheckAllButtonsAndDropDowns.checkAndSelect()'><b>checkAndSelect</b><br>Test class: registration.CheckAllButtonsAndDropDowns</td>
 <td></td>
-<td>0</td>
-<td>registration.CheckAllButtonsAndDropDowns@5f8edcc5</td></tr>
+<td>24</td>
+<td>registration.CheckAllButtonsAndDropDowns@6a03bcb1</td></tr>
 <tr>
 <td title='login.CheckForgotPassword.checkForgotPass()'><b>checkForgotPass</b><br>Test class: login.CheckForgotPassword</td>
 <td></td>
-<td>0</td>
-<td>login.CheckForgotPassword@57250572</td></tr>
+<td>12</td>
+<td>login.CheckForgotPassword@7c1e2a9e</td></tr>
 <tr>
 <td title='login.CheckAllButtons.checkTheButtons()'><b>checkTheButtons</b><br>Test class: login.CheckAllButtons</td>
 <td></td>
-<td>0</td>
-<td>login.CheckAllButtons@2638011</td></tr>
-<tr>
-<td title='registration.CheckAllButtonsAndDropDowns.getTheUrl()'><b>getTheUrl</b><br>Test class: registration.CheckAllButtonsAndDropDowns</td>
-<td></td>
-<td>0</td>
-<td>registration.CheckAllButtonsAndDropDowns@5f8edcc5</td></tr>
-<tr>
-<td title='registration.CheckAllButtonsAndDropDowns.invokeBrowser()'><b>invokeBrowser</b><br>Test class: registration.CheckAllButtonsAndDropDowns<br>Parameters: firefox</td>
-<td></td>
-<td>35</td>
-<td>registration.CheckAllButtonsAndDropDowns@5f8edcc5</td></tr>
-<tr>
-<td title='login.CheckAllButtons.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.CheckAllButtons<br>Parameters: firefox</td>
-<td></td>
-<td>24</td>
-<td>login.CheckAllButtons@2638011</td></tr>
-<tr>
-<td title='login.LoginWithNonexistingAccount.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithNonexistingAccount<br>Parameters: firefox</td>
-<td></td>
-<td>12</td>
-<td>login.LoginWithNonexistingAccount@6a2b953e</td></tr>
-<tr>
-<td title='login.CorrectEmailIncorrectPass.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.CorrectEmailIncorrectPass<br>Parameters: firefox</td>
-<td></td>
-<td>14</td>
-<td>login.CorrectEmailIncorrectPass@313b2ea6</td></tr>
-<tr>
-<td title='login.IncorrectEmailCorrectPass.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.IncorrectEmailCorrectPass<br>Parameters: firefox</td>
-<td></td>
-<td>13</td>
-<td>login.IncorrectEmailCorrectPass@2f465398</td></tr>
-<tr>
-<td title='login.LoginWithExistingAccount.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithExistingAccount<br>Parameters: firefox</td>
-<td></td>
-<td>24</td>
-<td>login.LoginWithExistingAccount@548e6d58</td></tr>
-<tr>
-<td title='login.LoginWithEmptyPass.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithEmptyPass<br>Parameters: firefox</td>
-<td></td>
-<td>12</td>
-<td>login.LoginWithEmptyPass@623a8092</td></tr>
-<tr>
-<td title='login.LoginWithEmptyEmail.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithEmptyEmail<br>Parameters: firefox</td>
-<td></td>
-<td>12</td>
-<td>login.LoginWithEmptyEmail@a1cdc6d</td></tr>
-<tr>
-<td title='login.LoginWithTheSamePassAsEmail.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithTheSamePassAsEmail<br>Parameters: firefox</td>
-<td></td>
-<td>15</td>
-<td>login.LoginWithTheSamePassAsEmail@175b9425</td></tr>
-<tr>
-<td title='login.LoginWithTheSameEmailAsPass.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.LoginWithTheSameEmailAsPass<br>Parameters: firefox</td>
-<td></td>
-<td>15</td>
-<td>login.LoginWithTheSameEmailAsPass@3098cf3b</td></tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.AnEmailWithoutAKeyChar<br>Parameters: firefox</td>
-<td></td>
-<td>45</td>
-<td>login.AnEmailWithoutAKeyChar@610f7aa</td></tr>
-<tr>
-<td title='login.CheckForgotPassword.invokeBrowser()'><b>invokeBrowser</b><br>Test class: login.CheckForgotPassword<br>Parameters: firefox</td>
-<td></td>
-<td>28</td>
-<td>login.CheckForgotPassword@57250572</td></tr>
+<td>16</td>
+<td>login.CheckAllButtons@21b2e768</td></tr>
 <tr>
 <td title='login.LoginWithEmptyEmail.leaveEmptyEmail()'><b>leaveEmptyEmail</b><br>Test class: login.LoginWithEmptyEmail</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithEmptyEmail@a1cdc6d</td></tr>
+<td>4</td>
+<td>login.LoginWithEmptyEmail@76ed1b7c</td></tr>
 <tr>
 <td title='login.LoginWithEmptyPass.leaveEmptyPass()'><b>leaveEmptyPass</b><br>Test class: login.LoginWithEmptyPass</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithEmptyPass@623a8092</td></tr>
+<td>5</td>
+<td>login.LoginWithEmptyPass@68567e20</td></tr>
 <tr>
 <td title='login.LoginWithTheSameEmailAsPass.typeEmailAsPass()'><b>typeEmailAsPass</b><br>Test class: login.LoginWithTheSameEmailAsPass</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithTheSameEmailAsPass@3098cf3b</td></tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnEmailWithoutAKeyChar()'><b>typeInAnEmailWithoutAKeyChar</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td></td>
-<td>0</td>
-<td>login.AnEmailWithoutAKeyChar@610f7aa</td></tr>
+<td>4</td>
+<td>login.LoginWithTheSameEmailAsPass@394a2528</td></tr>
 <tr>
 <td title='login.LoginWithNonexistingAccount.typeInTheNonexistingAccount()'><b>typeInTheNonexistingAccount</b><br>Test class: login.LoginWithNonexistingAccount</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithNonexistingAccount@6a2b953e</td></tr>
+<td>7</td>
+<td>login.LoginWithNonexistingAccount@57250572</td></tr>
 <tr>
 <td title='login.LoginWithExistingAccount.typeInTheRightCredentials()'><b>typeInTheRightCredentials</b><br>Test class: login.LoginWithExistingAccount</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithExistingAccount@548e6d58</td></tr>
+<td>11</td>
+<td>login.LoginWithExistingAccount@17a7f733</td></tr>
 <tr>
 <td title='login.CorrectEmailIncorrectPass.typeInTheWrongCredentials1()'><b>typeInTheWrongCredentials1</b><br>Test class: login.CorrectEmailIncorrectPass</td>
 <td></td>
-<td>0</td>
-<td>login.CorrectEmailIncorrectPass@313b2ea6</td></tr>
+<td>8</td>
+<td>login.CorrectEmailIncorrectPass@5609159b</td></tr>
 <tr>
 <td title='login.IncorrectEmailCorrectPass.typeInTheWrongCredentials2()'><b>typeInTheWrongCredentials2</b><br>Test class: login.IncorrectEmailCorrectPass</td>
 <td></td>
-<td>0</td>
-<td>login.IncorrectEmailCorrectPass@2f465398</td></tr>
+<td>7</td>
+<td>login.IncorrectEmailCorrectPass@2118cddf</td></tr>
 <tr>
 <td title='login.LoginWithTheSamePassAsEmail.typePassAsEmail()'><b>typePassAsEmail</b><br>Test class: login.LoginWithTheSamePassAsEmail</td>
 <td></td>
-<td>0</td>
-<td>login.LoginWithTheSamePassAsEmail@175b9425</td></tr>
-</table><p>
-<table width='100%' border='1' class='invocation-skipped'>
-<tr><td colspan='4' align='center'><b>SKIPPED TESTS</b></td></tr>
-<tr><td><b>Test method</b></td>
-<td width="30%"><b>Exception</b></td>
-<td width="10%"><b>Time (seconds)</b></td>
-<td><b>Instance</b></td>
-</tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnEmailWithoutThirdKeyChar()'><b>typeInAnEmailWithoutThirdKeyChar</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td><div><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnEmailWithoutThirdKeyChar()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-... Removed 18 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1907467420", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1907467420'><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnEmailWithoutThirdKeyChar()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:887)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div></td>
-<td>0</td>
-<td>null</td></tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnIncompleteEmail()'><b>typeInAnIncompleteEmail</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td><div><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmail()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-... Removed 18 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace930317866", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace930317866'><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmail()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:887)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div></td>
-<td>0</td>
-<td>null</td></tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain()'><b>typeInAnIncompleteEmailAgain</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td><div><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-... Removed 18 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1486553742", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1486553742'><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:887)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div></td>
-<td>0</td>
-<td>null</td></tr>
-<tr>
-<td title='login.AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain2()'><b>typeInAnIncompleteEmailAgain2</b><br>Test class: login.AnEmailWithoutAKeyChar</td>
-<td><div><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain2()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-... Removed 18 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace167693809", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace167693809'><pre>java.lang.Throwable: Method AnEmailWithoutAKeyChar.typeInAnIncompleteEmailAgain2()[pri:0, instance:login.AnEmailWithoutAKeyChar@610f7aa] depends on not successfully finished methods
-	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:887)
-	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-	at org.testng.TestRunner.privateRun(TestRunner.java:648)
-	at org.testng.TestRunner.run(TestRunner.java:505)
-	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-	at org.testng.TestNG.runSuites(TestNG.java:1049)
-	at org.testng.TestNG.run(TestNG.java:1017)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-</pre></div></td>
-<td>0</td>
-<td>null</td></tr>
+<td>7</td>
+<td>login.LoginWithTheSamePassAsEmail@11fc564b</td></tr>
 </table><p>
 </body>
 </html>

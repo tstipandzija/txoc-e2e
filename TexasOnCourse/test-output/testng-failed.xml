@@ -3,11 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="account.UpdateWithABlankTwitterAndLinkedIn">
+      <class name="assignment.SearchForAFlight">
         <methods>
-          <include name="leaveEmptyTwitterAndLinkedIn"/>
+          <include name="invokeBrowser"/>
+          <include name="searchAndChooseAFlight"/>
         </methods>
-      </class> <!-- account.UpdateWithABlankTwitterAndLinkedIn -->
+      </class> <!-- assignment.SearchForAFlight -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

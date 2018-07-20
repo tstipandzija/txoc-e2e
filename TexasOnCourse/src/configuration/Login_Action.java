@@ -3,14 +3,15 @@ package configuration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import pageObjects.Login_Page;
+
 public class Login_Action {
 	
 	public static void Execute(WebDriver driver) {
 		
-		driver.get(Config.url);
-		driver.findElement(By.id("email")).sendKeys(Config.email);
-		driver.findElement(By.id("password")).sendKeys(Config.password);
-		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		Login_Page.email(driver).sendKeys(Config.email);
+		Login_Page.password(driver).sendKeys(Config.password);
+		Login_Page.loginButton(driver).click();
 			
 	}
 

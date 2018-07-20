@@ -9,18 +9,21 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import pageObjects.Login_Page;
+import pageObjects.ResetPassword_Page;
 
 public class CheckForgotPassword {
 
 	WebDriver driver;
-	
-	@Test
+
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -28,34 +31,38 @@ public class CheckForgotPassword {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			checkForgotPass();
-
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
-	
-	@Test(dependsOnMethods = {"invokeBrowser"})
+
+	@Test
 	public void checkForgotPass() {
 
 		try {
-			driver.get(Config.url);
-			driver.findElement(By.linkText("Forgot password?")).click();
-			driver.findElement(By.id("email")).sendKeys(Config.email);
-			driver.findElement(By.xpath("//button[@type='submit']")).click();
-			String message = driver.findElement(By.xpath("/html/body/div/div/div/div/div[1]")).getText();
-			System.out.println("An email has been sent to the address you provided with instructions to reset your password. = " + message);
-			Assert.assertEquals(message, "An email has been sent to the address you provided with instructions to reset your password.");
-			driver.findElement(By.linkText("Contact support")).click();
+			Login_Page.forgotPassword(driver).click();
+			Login_Page.email(driver).sendKeys(Config.email);
+			ResetPassword_Page.resetButton(driver).click();
+			String message = Login_Page.infoMessage(driver).getText();
+			System.out.println(
+					"An email has been sent to the address you provided with instructions to reset your password. = "
+							+ message);
+			Assert.assertEquals(message,
+					"An email has been sent to the address you provided with instructions to reset your password.");
+			Login_Page.contactSupport(driver).click();
 			driver.navigate().back();
-			Thread.sleep(10000);
-			driver.quit();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		     
+		} finally {
+
+			driver.quit();
 		}
 	}
 

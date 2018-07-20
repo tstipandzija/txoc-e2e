@@ -3,113 +3,12 @@
 <suite name="Failed suite [TexasOnCourse]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Account/Dashboard test(failed)">
     <classes>
-      <class name="dashboard.CheckTheBadgeAndStipendButton">
-        <methods>
-          <include name="loginAndClickTheBadgeButton"/>
-        </methods>
-      </class> <!-- dashboard.CheckTheBadgeAndStipendButton -->
-      <class name="account.UpdateWithABlankSupervisor">
-        <methods>
-          <include name="leaveBlankAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankSupervisor -->
-      <class name="dashboard.CheckTheGlossaryLink">
-        <methods>
-          <include name="loginAndClickTheGlossaryLink"/>
-        </methods>
-      </class> <!-- dashboard.CheckTheGlossaryLink -->
-      <class name="account.UpdateWithABlankFirstName">
-        <methods>
-          <include name="leaveEmptyFirstNameAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankFirstName -->
-      <class name="account.UpdateWithABlankOccupation">
-        <methods>
-          <include name="leaveEmptyOccupationAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankOccupation -->
       <class name="account.UpdateWithABlankSchool">
         <methods>
+          <include name="invokeBrowser"/>
           <include name="leaveEmptyDistrictAndUpdate"/>
         </methods>
       </class> <!-- account.UpdateWithABlankSchool -->
-      <class name="account.UpdateWitABlankSupEmail">
-        <methods>
-          <include name="invokeBrowser"/>
-          <include name="leaveABlankEmail"/>
-        </methods>
-      </class> <!-- account.UpdateWitABlankSupEmail -->
-      <class name="account.UpdateOccupationTwice">
-        <methods>
-          <include name="selectOccupationSelectEmptyAndUpdate"/>
-          <include name="invokeBrowser"/>
-        </methods>
-      </class> <!-- account.UpdateOccupationTwice -->
-      <class name="account.UpdateWithSomeOccupation">
-        <methods>
-          <include name="selectOccupationAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithSomeOccupation -->
-      <class name="account.UpdateDistrictWithASpecChar">
-        <methods>
-          <include name="passDisTheSpecChar"/>
-          <include name="invokeBrowser"/>
-        </methods>
-      </class> <!-- account.UpdateDistrictWithASpecChar -->
-      <class name="account.UpdateAnEmailWithAnExistingOne">
-        <methods>
-          <include name="invokeBrowser"/>
-          <include name="sendEmailThatExistsAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateAnEmailWithAnExistingOne -->
-      <class name="account.UpdateWithABlankTwitterAndLinkedIn">
-        <methods>
-          <include name="leaveEmptyTwitterAndLinkedIn"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankTwitterAndLinkedIn -->
-      <class name="dashboard.CheckTheBannerLink">
-        <methods>
-          <include name="loginAndClickTheBannerLink"/>
-        </methods>
-      </class> <!-- dashboard.CheckTheBannerLink -->
-      <class name="account.UpdateSupervisorWithASpecChar">
-        <methods>
-          <include name="passSupTheSpecChar"/>
-          <include name="invokeBrowser"/>
-        </methods>
-      </class> <!-- account.UpdateSupervisorWithASpecChar -->
-      <class name="account.UpdateWithABlankEmail">
-        <methods>
-          <include name="leaveEmptyEmailAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankEmail -->
-      <class name="account.UpdateWithABlankLastName">
-        <methods>
-          <include name="leaveEmptyLastNameAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithABlankLastName -->
-      <class name="account.CheckAllButtons">
-        <methods>
-          <include name="invokeBrowser"/>
-          <include name="checkButtonsAndLinks"/>
-        </methods>
-      </class> <!-- account.CheckAllButtons -->
-      <class name="dashboard.CheckMiddleGalaxyButtonAndLink">
-        <methods>
-          <include name="loginAndClickButtonAndLink"/>
-        </methods>
-      </class> <!-- dashboard.CheckMiddleGalaxyButtonAndLink -->
-      <class name="account.UpdateWithSpecCharacters">
-        <methods>
-          <include name="sendSpecCharactersAndUpdate"/>
-        </methods>
-      </class> <!-- account.UpdateWithSpecCharacters -->
-      <class name="account.UpdateTwitterAndLinkendInWithASpecChar">
-        <methods>
-          <include name="invokeBrowser"/>
-          <include name="passTwitterAndLinkedInSpecChar"/>
-        </methods>
-      </class> <!-- account.UpdateTwitterAndLinkendInWithASpecChar -->
     </classes>
   </test> <!-- Account/Dashboard test(failed) -->
 </suite> <!-- Failed suite [TexasOnCourse] -->

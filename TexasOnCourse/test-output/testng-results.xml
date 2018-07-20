@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="1" failed="1" skipped="0">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2018-03-02T13:13:47Z" name="Default suite" finished-at="2018-03-02T13:14:27Z" duration-ms="39644">
+  <suite started-at="2018-07-04T06:21:38Z" name="Default suite" finished-at="2018-07-04T06:22:01Z" duration-ms="23427">
     <groups>
     </groups>
-    <test started-at="2018-03-02T13:13:47Z" name="Default test" finished-at="2018-03-02T13:14:27Z" duration-ms="39644">
-      <class name="account.UpdateWithABlankTwitterAndLinkedIn">
-        <test-method signature="invokeBrowser(java.lang.String)[pri:0, instance:account.UpdateWithABlankTwitterAndLinkedIn@49e5f737]" started-at="2018-03-02T13:13:47Z" name="invokeBrowser" finished-at="2018-03-02T13:14:27Z" duration-ms="39591" status="PASS">
+    <test started-at="2018-07-04T06:21:38Z" name="Default test" finished-at="2018-07-04T06:22:01Z" duration-ms="23427">
+      <class name="assignment.MakeARegistration">
+        <test-method is-config="true" signature="invokeBrowser(java.lang.String)[pri:0, instance:assignment.MakeARegistration@38e79ae3]" started-at="2018-07-04T06:21:38Z" name="invokeBrowser" finished-at="2018-07-04T06:21:47Z" duration-ms="8904" status="PASS">
           <params>
             <param index="0">
               <value>
@@ -18,57 +18,11 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- invokeBrowser -->
-        <test-method signature="leaveEmptyTwitterAndLinkedIn()[pri:0, instance:account.UpdateWithABlankTwitterAndLinkedIn@49e5f737]" started-at="2018-03-02T13:14:27Z" name="leaveEmptyTwitterAndLinkedIn" finished-at="2018-03-02T13:14:27Z" duration-ms="16" status="FAIL">
-          <exception class="org.openqa.selenium.NoSuchSessionException">
-            <message>
-              <![CDATA[Session ID is null. Using WebDriver after calling quit()?
-Build info: version: '3.8.1', revision: '6e95a6684b', time: '2017-12-01T19:05:14.666Z'
-System info: host: 'Tomislavs-MacBook-Pro.local', ip: 'fe80:0:0:0:1800:d509:b408:671e%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.13.3', java.version: '9.0.1'
-Driver info: driver.version: RemoteWebDriver]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.openqa.selenium.NoSuchSessionException: Session ID is null. Using WebDriver after calling quit()?
-Build info: version: '3.8.1', revision: '6e95a6684b', time: '2017-12-01T19:05:14.666Z'
-System info: host: 'Tomislavs-MacBook-Pro.local', ip: 'fe80:0:0:0:1800:d509:b408:671e%en0', os.name: 'Mac OS X', os.arch: 'x86_64', os.version: '10.13.3', java.version: '9.0.1'
-Driver info: driver.version: RemoteWebDriver
-at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:131)
-at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
-at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:601)
-at org.openqa.selenium.remote.RemoteWebDriver.get(RemoteWebDriver.java:325)
-at configuration.Login_Action.Execute(Login_Action.java:10)
-at account.UpdateWithABlankTwitterAndLinkedIn.leaveEmptyTwitterAndLinkedIn(UpdateWithABlankTwitterAndLinkedIn.java:52)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
-at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-at java.base/java.lang.reflect.Method.invoke(Method.java:564)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-at org.testng.internal.Invoker.invokeMethod(Invoker.java:580)
-at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:716)
-at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:988)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-at org.testng.TestRunner.privateRun(TestRunner.java:648)
-at org.testng.TestRunner.run(TestRunner.java:505)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-at org.testng.TestNG.runSuites(TestNG.java:1049)
-at org.testng.TestNG.run(TestNG.java:1017)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.openqa.selenium.NoSuchSessionException -->
+        <test-method signature="readAndRegister()[pri:0, instance:assignment.MakeARegistration@38e79ae3]" started-at="2018-07-04T06:21:47Z" name="readAndRegister" finished-at="2018-07-04T06:22:01Z" duration-ms="14511" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- leaveEmptyTwitterAndLinkedIn -->
-      </class> <!-- account.UpdateWithABlankTwitterAndLinkedIn -->
+        </test-method> <!-- readAndRegister -->
+      </class> <!-- assignment.MakeARegistration -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

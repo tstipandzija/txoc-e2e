@@ -10,19 +10,24 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import configuration.GoToTab;
+import configuration.SignOut_Action;
+import pageObjects.Dashboard_Page;
+import pageObjects.Login_Page;
 
 
 public class CheckTheBadgeAndStipendButton {
 
 	WebDriver driver; 
 	
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -30,9 +35,10 @@ public class CheckTheBadgeAndStipendButton {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			loginAndClickTheBadgeButton();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,44 +49,35 @@ public class CheckTheBadgeAndStipendButton {
 	public void loginAndClickTheBadgeButton() {
 
 		try {
-			driver.get(Config.url);
 			String titleOfThePage = driver.getTitle();
-			System.out.print("Title of the page is: " + titleOfThePage);
+			System.out.println("Title of the page is: " + titleOfThePage);
 			Assert.assertEquals(titleOfThePage, "Texas OnCourse Academy");
-			driver.findElement(By.id("email")).sendKeys("tstipandzija@extensionengine.com");
-			driver.findElement(By.id("password")).sendKeys(Config.password);
-			driver.findElement(By.xpath("//button[@type='submit']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//img[@alt='User Badge']")).click();
-			Thread.sleep(4000);			
-			driver.navigate().back();
-			Thread.sleep(5000);
+			Login_Page.email(driver).sendKeys(Config.secondEmail);
+			Login_Page.password(driver).sendKeys(Config.password);
+			Login_Page.loginButton(driver).click();
+			Thread.sleep(1000);
 			
-			String stipendButton = driver.findElement(By.xpath(".//*[@id='user-dashboard']/div[2]/div[2]/div[2]/div[2]/a/div")).getText();
+			Dashboard_Page.userBadge(driver).click();
+			Thread.sleep(2000);			
+			driver.navigate().back();
+			Thread.sleep(1000);
+			
+			String stipendButton = Dashboard_Page.stipendButton(driver).getText();
 			System.out.println("If you've qualified for a stipend, click here to claim it. = " + stipendButton);
 			Assert.assertEquals(stipendButton, "If you've qualified for a stipend, click here to claim it.");
-			driver.findElement(By.xpath(".//*[@id='user-dashboard']/div[2]/div[2]/div[2]/div[2]/a/div")).click();
+			Dashboard_Page.stipendButton(driver).click();
 			
-			Thread.sleep(6000);
-			for (String handle : driver.getWindowHandles()) {
-				driver.switchTo().window(handle);
-			}
-			driver.navigate().refresh();
-			driver.close();
-			
-			for (String handle : driver.getWindowHandles()) {
-				driver.switchTo().window(handle);
-			}
-
-			Thread.sleep(3000);
-			
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
-			driver.quit();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+			Thread.sleep(1000);
+			GoToTab.Execute(driver);
+			SignOut_Action.Execute(driver);
+	
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
 		}
+		  finally {
 
+			driver.quit();
+		}
 	}
 
 	//public static void main(String[] args) {

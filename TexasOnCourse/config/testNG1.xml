@@ -19,10 +19,17 @@
 			<class name="account.UpdateWithABlankTwitterAndLinkedIn" />
 			<class name="account.UpdateTwitterAndLinkendInWithASpecChar" />
 			<class name="dashboard.CheckTheBadgeAndStipendButton"/>
-			<class name="dashboard.CheckHelpVideosLink"/>
-			<class name="dashboard.CheckMiddleGalaxyButtonAndLink"/>
+			<class name="dashboard.CheckTheHelpVideosLink"/>
+			<class name="dashboard.CheckTheMiddleGalaxyButtonAndLink"/>
 			<class name="dashboard.CheckTheGlossaryLink"/>
 			<class name="dashboard.CheckTheBannerLink"/>
+			<class name="dashboard.CheckTheLogo"/>
+			<class name="dashboard.CheckTheContactUsLink"/>
+			<class name="dashboard.CheckTheDashboardLink"/>
+			<class name="dashboard.CheckTheWebAccessLink"/>
 		</classes>
 	</test>
 </suite>
+
+
+	

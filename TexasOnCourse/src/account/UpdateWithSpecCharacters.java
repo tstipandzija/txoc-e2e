@@ -17,18 +17,23 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
+import configuration.Config;
+import configuration.GoToAccount;
 import configuration.Login_Action;
+import configuration.SignOut_Action;
+import pageObjects.Account_Page;
 
 public class UpdateWithSpecCharacters {
 
 	WebDriver driver; 
 
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -36,9 +41,10 @@ public class UpdateWithSpecCharacters {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			sendSpecCharactersAndUpdate();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,42 +55,37 @@ public class UpdateWithSpecCharacters {
 
 		try {
 			Login_Action.Execute(driver);
-			Thread.sleep(3000);
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			driver.findElement(By.xpath("//a[@href='#/account']")).click();
+			Thread.sleep(1000);
+			GoToAccount.Execute(driver);
 
-			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
+			driver.switchTo().frame(Account_Page.iframe(driver));
 			Thread.sleep(2000);
 
-			driver.findElement(By.id("firstName")).clear();
-			driver.findElement(By.id("firstName")).sendKeys("!##$%&'()=?*ĐŽĆČŠ”");
-			driver.findElement(By.id("lastName")).sendKeys("૱ ꠸ ┯ ┰ ┱ ᶆ ᶇ ᶈ ᶉ ᶊ ᶋ ᶌ ᶍ ᶎ ᶏ”!#$%&'()=?*ĐĆČŠ┲");
-			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
-			System.out.println("Update = " + update);
-			Assert.assertEquals(update, "Update");
-			WebElement el = driver.findElement(By.xpath("//a[@id='updateButton']"));
+			Account_Page.firstName(driver).clear();
+			Account_Page.firstName(driver).sendKeys("!##$%&'()=?*ĐŽĆČŠ”");
+			Account_Page.lastName(driver).sendKeys("૱ ꠸ ┯ ┰ ┱ ᶆ ᶇ ᶈ ᶉ ᶊ ᶋ ᶌ ᶍ ᶎ ᶏ”!#$%&'()=?*ĐĆČŠ┲");
+			WebElement el = Account_Page.updateButton(driver);
 			JavascriptExecutor jsExec = (JavascriptExecutor) driver;
 			jsExec.executeScript("arguments[0].click()", el);	
-			Thread.sleep(4000);
+			Thread.sleep(1000);
 			
-			driver.findElement(By.id("firstName")).clear();
-			driver.findElement(By.id("firstName")).sendKeys("d");
-			driver.findElement(By.id("lastName")).clear();
-			driver.findElement(By.id("lastName")).sendKeys("e");
-			WebElement el1 = driver.findElement(By.xpath("//a[@id='updateButton']"));
+			Account_Page.firstName(driver).clear();
+			Account_Page.firstName(driver).sendKeys("d");
+			Account_Page.lastName(driver).clear();
+			Account_Page.lastName(driver).sendKeys("e");
+			WebElement el1 = Account_Page.updateButton(driver);
 			JavascriptExecutor jsExec1 = (JavascriptExecutor) driver;
 			jsExec1.executeScript("arguments[0].click()", el1);	
-			Thread.sleep(4000);
 			
-
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
-			Thread.sleep(5000);
+			SignOut_Action.Execute(driver);
+			
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		}
+		  finally {
+
 			driver.quit();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 
 	}

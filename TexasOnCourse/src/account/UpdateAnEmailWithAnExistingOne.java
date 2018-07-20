@@ -17,20 +17,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import configuration.BrowserType;
 import configuration.Config;
+import configuration.GoToAccount;
 import configuration.Login_Action;
+import configuration.SignOut_Action;
+import javafx.scene.control.Alert;
+import pageObjects.Account_Page;
 
 
 public class UpdateAnEmailWithAnExistingOne {
 
 	WebDriver driver; 
 	
-	@Test
+	@BeforeClass
 	@Parameters("browser")
 	public void invokeBrowser(@Optional("firefox") String browser) {
 
@@ -38,46 +43,42 @@ public class UpdateAnEmailWithAnExistingOne {
 
 			driver = BrowserType.Execute(browser);
 			driver.manage().window().maximize();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-			driver.manage().timeouts().pageLoadTimeout(40, TimeUnit.SECONDS);
-			sendEmailThatExistsAndUpdate();
+			driver.manage().timeouts().implicitlyWait(Config.wait, TimeUnit.SECONDS);
+			driver.manage().timeouts().pageLoadTimeout(Config.pageLoad, TimeUnit.SECONDS);
+			driver.get(Config.url);
+			
 			} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	@Test(dependsOnMethods = {"invokeBrowser"})
+	@Test
 	public void sendEmailThatExistsAndUpdate() {
 
 		try {
 			Login_Action.Execute(driver);
-			Thread.sleep(3000);
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			driver.findElement(By.xpath("//a[@href='#/account']")).click();
+			Thread.sleep(1000);
+			GoToAccount.Execute(driver);
 
-			driver.switchTo().frame(driver.findElement(By.xpath("//iframe[@src='https://account.stage.texasoncourse.org/users/profile']")));
+			driver.switchTo().frame(Account_Page.iframe(driver));
 			Thread.sleep(2000);
 
-			driver.findElement(By.id("email")).clear();
-			Thread.sleep(2000);
-			driver.findElement(By.id("email")).sendKeys("tstipandzija@extensionengine.com");
+			Account_Page.email(driver).clear();
+			Account_Page.email(driver).sendKeys(Config.secondEmail);
 			
-			String update = driver.findElement(By.xpath("//a[@id='updateButton']")).getText();
-			System.out.println("Update = " + update);
-			Assert.assertEquals(update, "Update");
-			WebElement el = driver.findElement(By.xpath("//a[@id='updateButton']"));
+			WebElement el = Account_Page.updateButton(driver);
 			JavascriptExecutor jsExec = (JavascriptExecutor) driver;
-			jsExec.executeScript("arguments[0].click()", el);	
-			Thread.sleep(4000);
+			jsExec.executeScript("arguments[0].click()", el);
 			
 			driver.switchTo().defaultContent();
-			driver.findElement(By.xpath("//span[@class='angle-down']")).click();
-			Thread.sleep(2000);
-			driver.findElement(By.xpath("//a[@href='/oidc/logout']")).click();
-			Thread.sleep(5000);
+			SignOut_Action.Execute(driver);
+			
+		} catch (Throwable t) {
+		     throw new Error ("Test failed: " + this.getClass().getSimpleName() + ", reason: " + t.getMessage());
+		}
+		  finally {
+
 			driver.quit();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 	}
 
